@@ -12,6 +12,15 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
+
+      - name: Remove binary files from history
+        run: |
+          pip install git-filter-repo --quiet
+          git filter-repo --invert-paths \
+            --path "Screenshot 2026-04-10 at 8.49.13 PM.png" \
+            --path "Screenshot 2026-04-10 at 8.49.39 PM.png" \
+            --force
+
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
