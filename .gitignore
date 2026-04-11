@@ -190,3 +190,10 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+# VS Code
+.vscode/
+#screenshots and binary files
+*.png
+*.jpg
+*.jpeg
+Screenshot*

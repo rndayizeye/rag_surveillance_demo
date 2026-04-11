@@ -1,5 +1,0 @@
-streamlit
-llama-index
-chromadb
-python-dotenv
-pypdf
