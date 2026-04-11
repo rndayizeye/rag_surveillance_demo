@@ -76,7 +76,7 @@ This project is a professional RAG (Retrieval-Augmented Generation) assistant de
 
 
 ## 🚀 Live Demo
-**Hugging Face Space:** [Link to your Space](https://rndayizeye-rag-surveillance-demo.hf.space)
+**Hugging Face Space:** [Click here to view the app demo](https://rndayizeye-rag-surveillance-demo.hf.space)
 
 ---
 
