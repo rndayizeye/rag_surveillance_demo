@@ -1,3 +1,11 @@
+---
+title: Rag Surveillance Demo
+emoji: ⚖️
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+___
 # sti-surveillance-rag
 
 <a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
