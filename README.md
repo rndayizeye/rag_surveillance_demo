@@ -1,11 +1,14 @@
 ---
-title: Rag Surveillance Demo
-emoji: ⚖️
+title: RAG Surveillance Demo
+emoji: 🔍
 colorFrom: blue
-colorTo: green
-sdk: docker
-app_port: 7860
-___
+colorTo: indigo
+sdk: streamlit
+sdk_version: "1.43.0"
+python_version: "3.11"
+app_file: app.py
+pinned: false
+---
 
 # sti-surveillance-rag
 
