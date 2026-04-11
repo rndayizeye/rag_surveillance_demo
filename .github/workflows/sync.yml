@@ -1,9 +1,20 @@
-- name: Push to hub
-  env:
-    HF_TOKEN: ${{ secrets.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 }}
-  run: |
-    # Use the token to set up the remote URL
-    git remote add hf https://rndayizeye:$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@huggingface.co/spaces/rndayizeye/rag-surveillance-demo
-          
-    # Force push to the 'main' branch of the HF Space
-    git push hf main --force
+name: Sync to Hugging Face hub
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+      - name: Push to hub
+        env:
+          HF_TOKEN: ${{ secrets.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 }}
+        run: |
+          git remote add hf https://rndayizeye:$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@huggingface.co/spaces/rndayizeye/rag-surveillance-demo
+          git push hf main --force
