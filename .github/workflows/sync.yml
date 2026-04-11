@@ -14,6 +14,6 @@ jobs:
           lfs: true
       - name: Push to hub
         env:
-          HF_TOKEN: ${{ secrets.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 }}
+          HF_TOKEN: ${{ secrets.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 }}
         run: |
-          git push https://rndayizeye:$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@huggingface.co/spaces/rndayizeye/rag-surveillance-demo main
+          git push https://rndayizeye:$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@huggingface.co/spaces/rndayizeye/rag-surveillance-demo main
