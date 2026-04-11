@@ -2,11 +2,17 @@ import os
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, StorageContext, load_index_from_storage, Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
+from llama_index.core.callbacks import CallbackManager, LlamaDebugHandler # for debugging, trace and log all LLM calls and embedding calls. Useful for development, but can be verbose!
 import streamlit as st
 
 PERSIST_DIR = "./storage"
 
 def get_rag_engine(data_path="./data"):
+    # Initialize the debugger
+    debug_handler = LlamaDebugHandler(print_trace_on_end=True)
+    callback_manager = CallbackManager([debug_handler])
+    
+    Settings.callback_manager = callback_manager
     Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
     Settings.llm = Groq(model="llama-3.1-8b-instant", api_key=os.getenv("GROQ_API_KEY"))
 
