@@ -10,11 +10,13 @@ app_file: app.py
 pinned: false
 ---
 
-# sti-surveillance-rag
+# STI Surveillance (RAG)
 
 <a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
+
+![App Screenshot](screenshots/demo.png)
 
 This project aims to develop a demo of a RAG implementation for our STI surveillance program using a Streamlit app. It will integrate guidelines from manuals and CDC with unique instructions. Built in a Docker container, I'll document my progress on GitHub, showcasing my learning journey in programming.
 
