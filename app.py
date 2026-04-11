@@ -21,6 +21,7 @@ with st.sidebar:
         accept_multiple_files=True
     )
     
+
     if st.button("🚀 Process Documents"):
         if uploaded_files:
             with st.spinner("Saving and indexing files..."):
@@ -38,6 +39,10 @@ with st.sidebar:
         else:
             st.error("Please select files first.")
 
+    if os.path.exists("query_logs.csv"):
+        with open("query_logs.csv", "rb") as file:
+            st.download_button("📥 Download Audit Log", file, "audit_log.csv", "text/csv")
+                
     if st.button("🧹 Clear All Data"):
         for f in os.listdir("data"):
             if not f.startswith('.'):
