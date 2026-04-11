@@ -197,3 +197,5 @@ cython_debug/
 *.jpg
 *.jpeg
 Screenshot*
+data/*
+!data/placeholder.txt
