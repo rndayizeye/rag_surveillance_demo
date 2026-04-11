@@ -16,10 +16,6 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-<<<<<<< HEAD
-          git remote add hf https://rndayizeye:$HF_TOKEN@huggingface.co/spaces/rndayizeye/rag-surveillance-demo
-          git push hf main --force
-=======
           git remote add hf https://rndayizeye:$HF_TOKEN@huggingface.co/spaces/rndayizeye/rag-surveillance-demo main
           git push hf main --force
 >>>>>>> refs/remotes/origin/main
