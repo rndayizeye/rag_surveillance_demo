@@ -4,7 +4,7 @@ from src.engine import get_rag_engine
 
 # Page Configuration
 st.set_page_config(page_title="STI Surveillance AI", layout="wide")
-st.title("⚖️ STI Surveillance Program Assistant")
+st.title("🔍 STI Surveillance Program Assistant")
 
 # Ensure the data directory exists
 if not os.path.exists("data"):
