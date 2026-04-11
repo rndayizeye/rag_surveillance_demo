@@ -1,0 +1,11 @@
+
+services:
+  rag-app:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    environment:
+      - OPENAI_API_KEY=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
+      - GROQ_API_KEY=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
