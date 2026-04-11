@@ -199,3 +199,4 @@ cython_debug/
 data/*
 !data/placeholder.txt
 screenshots/*.png
+screenshots/
