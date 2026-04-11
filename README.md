@@ -16,9 +16,11 @@ pinned: false
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
+## App screenshot 
+
 ![App Screenshot](https://private-user-images.githubusercontent.com/66800883/576983211-d5d9ba26-18e0-43b1-871a-c2225ac4dcac.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzU5MzA4NzEsIm5iZiI6MTc3NTkzMDU3MSwicGF0aCI6Ii82NjgwMDg4My81NzY5ODMyMTEtZDVkOWJhMjYtMThlMC00M2IxLTg3MWEtYzIyMjVhYzRkY2FjLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA0MTElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNDExVDE4MDI1MVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTNlMDU0YmVlMmVjYWVjNTgyNDYzNjRmNTI5N2YwY2Y1OWQ4MjNkMGJmYmJkMjczYzEwYzdhZmIyNWM5ZGQ4ODQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRnBuZyJ9.ryGL3Tffw6SRTWHcHG0uEcctgrx1DHJbby5Z6Y3YaKY)
 
-This project aims to develop a demo of a RAG implementation for our STI surveillance program using a Streamlit app. It will integrate guidelines from manuals and CDC with unique instructions. Built in a Docker container, I'll document my progress on GitHub, showcasing my learning journey in programming.
+This project is a professional RAG (Retrieval-Augmented Generation) assistant designed for public health professionals to navigate infectious disease surveillance manuals, CDC guidelines, and regional health memos. The project uses a Streamlit app interface and is built in a Docker container to allow for easy deployment.
 
 ## Project Organization
 
@@ -71,5 +73,47 @@ This project aims to develop a demo of a RAG implementation for our STI surveill
     └── plots.py                <- Code to create visualizations
 ```
 
+
+
+## 🚀 Live Demo
+**Hugging Face Space:** [Link to your Space](https://rndayizeye-rag-surveillance-demo.hf.space)
+
+---
+
+## 🛠️ Technical Stack
+- **LLM:** Meta Llama 3.1 (via Groq API)
+- **Framework:** LlamaIndex (RAG & Data Orchestration)
+- **Embeddings:** BAAI/bge-small-en-v1.5
+- **UI:** Streamlit
+- **Infrastructure:** Docker & Hugging Face Spaces
+
+## 🛡️ Privacy & Security
+- **Zero-Footprint:** This tool is designed with public health data sensitivity in mind. Uploaded documents are processed locally within the container and are **not** used to train global AI models.
+- **Environment Management:** API keys and sensitive configurations are managed via `.env` files and are never committed to the repository.
+
+## 📂 Features
+- **Dynamic Context:** Upload specific PDFs to build a temporary knowledge base for targeted queries.
+- **Verified Sources:** Every answer includes citations from your uploaded manuals to ensure accuracy.
+- **Containerized:** Fully portable via Docker, allowing for deployment on internal health department servers.
+
+## 🚦 Getting Started (Local Development)
+
+### 1. Clone the Repository
+```bash
+git clone [https://github.com/your-username/your-repo.git](https://github.com/your-username/your-repo.git)
+cd your-repo
+2. Set Up Environment Variables
+Create a .env file in the root directory:
+
+Plaintext
+GROQ_API_KEY=your_api_key_here
+3. Run with Docker Compose
+Bash
+docker-compose up --build
+Access the app at http://localhost:8501.
+
+👨‍💻 Author
+Public Health Professional | Regional Program Coordinator
+Specializing in infectious disease surveillance and data analytics.
 --------
 
