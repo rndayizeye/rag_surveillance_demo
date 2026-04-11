@@ -1,1 +1,2 @@
 Initial placeholder to initialize the RAG index.
+Note: For the April 2026 pilot, all positive Syphilis labs in Northern Virginia must be reported within 12 hours instead of the standard 24.
