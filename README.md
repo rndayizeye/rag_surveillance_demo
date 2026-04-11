@@ -34,7 +34,8 @@ This project is a professional RAG (Retrieval-Augmented Generation) assistant de
 ├── storage/                 # Persistent vector index and embeddings (Git-ignored)
 ├── .env                     # Private API keys (Git-ignored)
 ├── .gitignore               # Prevents sensitive data from being pushed
-├── app.py                   # Streamlit UI and session management
+├── query_logs.csv           # Audit trail of queries and retrieved chunks (Git-ignored)
+├── app.py                   # UI with logging integration, Streamlit UI and session management
 ├── docker-compose.yml       # Container orchestration
 ├── Dockerfile               # Environment build instructions
 ├── README.md                # Project documentation
