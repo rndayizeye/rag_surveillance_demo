@@ -2,12 +2,21 @@ import os
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, StorageContext, load_index_from_storage, Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
+import streamlit as st
 
 PERSIST_DIR = "./storage"
 
 def get_rag_engine(data_path="./data"):
     Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
     Settings.llm = Groq(model="llama-3.1-8b-instant", api_key=os.getenv("GROQ_API_KEY"))
+
+    # Check if the folder is empty or doesn't exist
+    if not os.path.exists(data_path) or not os.listdir(data_path):
+        # Return a "Mock" engine or handle the empty state
+        # For a Streamlit app, it's often better to just 
+        # let the UI handle the 'No files' state.
+        st.warning("⚠️ No documents found. Please upload files in the sidebar.")
+        st.stop() # Stops execution so the app doesn't crash
 
     if not os.path.exists(PERSIST_DIR):
         os.makedirs(data_path, exist_ok=True)
