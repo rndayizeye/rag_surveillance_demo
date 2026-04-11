@@ -14,7 +14,7 @@ jobs:
           lfs: true
       - name: Push to hub
         env:
-          HF_TOKEN: ${{ secrets.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 }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git remote add hf https://rndayizeye:$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@huggingface.co/spaces/rndayizeye/rag-surveillance-demo
+          git remote add hf https://rndayizeye:$HF_TOKEN@huggingface.co/spaces/rndayizeye/rag-surveillance-demo main
           git push hf main --force
