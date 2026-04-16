@@ -15,7 +15,7 @@ def get_rag_engine(data_path="./data"):
     Settings.callback_manager = callback_manager
     Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
     Settings.llm = Groq(model="llama-3.1-8b-instant", api_key=os.getenv("GROQ_API_KEY"))
-
+    
     # Check if the folder is empty or doesn't exist
     if not os.path.exists(data_path) or not os.listdir(data_path):
         # Return a "Mock" engine or handle the empty state
