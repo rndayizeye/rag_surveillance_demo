@@ -1,76 +1,129 @@
-# RAG Implementation Demo for STI Surveillance Program
-This project aims to develop a demo of a RAG implementation for our STI surveillance program using a Streamlit app. It will integrate guidelines from manuals and CDC with unique instructions. Built in a Docker container, I'll document my progress on GitHub, showcasing my learning journey in programming.
+---
+title: RAG Surveillance Demo
+emoji: 🔍
+colorFrom: blue
+colorTo: indigo
+sdk: streamlit
+sdk_version: 1.43.0
+python_version: "3.11"
+app_file: app.py
+pinned: false
+---
 
-# Project description
-I am developing a demonstration of a RAG (Retrieval Augmented Generation) implementation tailored for our STI surveillance program. As a supervisor, I oversee a team that follows various manuals to ensure the accurate collection and entry of data. While we have established company manuals, we also adhere to CDC guidelines. However, there are often unique instructions shared through emails or presentations that haven’t yet been formally integrated into our manuals.
+# STI Surveillance RAG Assistant
 
-The goal of this project is to create a user-friendly streamlit app that effectively demonstrates the RAG implementation, allowing easy access to essential guidance and data management processes. To ensure that this demo is production-ready, I plan to build it within a Docker container, utilizing a template such as Cookiecutter, and then deploy it on Streamlit’s free server.
+A professional RAG (Retrieval-Augmented Generation) assistant for public health professionals navigating STI surveillance manuals, CDC guidelines, and regional health memos.
 
-As I am still learning programming, I intend to approach this project step-by-step, documenting my progress and regularly publishing updates to my GitHub repository. This will not only allow me to refine my skills but also provide a valuable resource for my team and others in the field.
+Built with [PageIndex](https://github.com/VectifyAI/PageIndex) — a vectorless, reasoning-based retrieval framework that builds a hierarchical tree index from your documents and uses LLM reasoning to find relevant sections, rather than approximate vector similarity search.
 
-# Project details
+## Features
 
-# ⚖️ STI Surveillance Program Assistant (RAG)
-An AI-powered Decision Support System designed to help public health professionals navigate complex STI surveillance manuals, CDC guidelines, and internal department memos.
+- **Reasoning-based retrieval** — no vector database, no chunking artefacts. PageIndex navigates document structure the way a human analyst would.
+- **Multi-document support** — upload several manuals at once; the engine queries across all of them.
+- **Persistent indexing** — uploaded documents are indexed once and reused across sessions. Re-uploading the same file does not trigger re-indexing.
+- **Audit trail** — every query and response is logged to a downloadable CSV for compliance review.
+- **Containerised** — ships as a single Docker image for deployment on internal health department servers or Hugging Face Spaces.
 
-🌟 Key Features
-Privacy-First RAG: Uses local embeddings (HuggingFace BGE) to ensure sensitive document text is processed securely without being sent to third-party providers for indexing.
+## Project structure
 
-Hybrid Architecture: Combines local vector storage with Groq (Llama 3.1) for ultra-fast, high-quality response synthesis.
+```
+rag_surveillance_demo/
+├── sti_rag/                  # Application package
+│   ├── __init__.py
+│   ├── config.py             # Layered config (YAML defaults + env overrides)
+│   ├── config.yaml           # Human-readable defaults — safe to commit
+│   ├── engine.py             # PageIndex orchestration
+│   └── audit.py              # CSV audit logging
+├── tests/
+│   ├── test_config.py
+│   └── test_engine.py
+├── data/                     # Uploaded PDFs (git-ignored)
+├── storage/                  # Persisted PageIndex doc registry (git-ignored)
+├── app.py                    # Streamlit UI
+├── Dockerfile
+├── docker-compose.yml
+└── requirements.txt
+```
 
-Dynamic Knowledge Base: Upload new PDFs or email memos directly through the UI and re-index the "AI brain" in seconds.
+## Tech stack
 
-Audit-Ready: Includes a query logging system to track user needs and identification of training gaps.
+| Layer | Technology |
+|---|---|
+| Retrieval | [PageIndex](https://github.com/VectifyAI/PageIndex) — vectorless, reasoning-based RAG |
+| UI | [Streamlit](https://streamlit.io) |
+| Container | Docker (multi-stage, non-root) |
+| Deployment | Hugging Face Spaces |
 
-Source Attribution: Every answer includes citations pointing back to the specific source document and the exact text snippet used.
+## Getting started
 
-🛠️ Tech Stack
-Framework: LlamaIndex
+### 1. Clone the repository
 
-Interface: Streamlit
+```bash
+git clone https://github.com/rndayizeye/rag_surveillance_demo.git
+cd rag_surveillance_demo
+```
 
-Containerization: Docker & Docker Compose
+### 2. Set up environment variables
 
-LLM: Groq (Llama-3.1-8b-instant)
+```bash
+cp .env.example .env
+```
 
-Embeddings: HuggingFace (BAAI/bge-small-en-v1.5)
+Open `.env` and add your [PageIndex API key](https://dash.pageindex.ai/api-keys):
 
-Data Handling: Pandas & PyPDF
+```
+PAGEINDEX_API_KEY=your_key_here
+```
 
-🚀 Quick Start
-1. Prerequisites
-Docker and Docker Compose installed.
+### 3. Run with Docker Compose
 
-A Groq API Key (Free at console.groq.com).
-
-2. Configuration
-Create a .env file in the root directory:
-
-Bash
-GROQ_API_KEY=your_groq_api_key_here
-3. Launching the App
-Run the following command in your terminal:
-
-Bash
+```bash
 docker-compose up --build
-The app will be available at http://localhost:8501.
+```
 
-📂 Project Structure
-/app.py: Streamlit interface and session management.
+Open [http://localhost:8501](http://localhost:8501).
 
-/src/engine.py: Core RAG logic, Chat Engine configuration, and local embedding setup.
+### 4. Run locally without Docker
 
-/data: Local directory for PDFs and text files (ignored by Git for privacy).
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+streamlit run app.py
+```
 
-/storage: Persistent vector store (ignored by Git).
+### 5. Run tests
 
-query_logs.csv: Automatic tracking of user queries (Admin only).
+```bash
+pip install pytest pytest-mock
+pytest
+```
 
-🛡️ Security & Privacy
-This application is built with a Zero-Footprint philosophy for sensitive data:
+## Configuration
 
-Local Indexing: Documents are converted into mathematical vectors locally within the Docker container.
+All settings live in `sti_rag/config.yaml`. Every value can be overridden at deploy time with an environment variable — no code changes needed.
 
-Encrypted Transit: API calls to Groq are encrypted via TLS.
+| Setting | YAML key | Env var | Default |
+|---|---|---|---|
+| PageIndex API key | — (secrets only) | `PAGEINDEX_API_KEY` | *(required)* |
+| Data directory | `paths.data_dir` | `STI_DATA_DIR` | `data/` |
+| Storage directory | `paths.storage_dir` | `STI_STORAGE_DIR` | `storage/` |
+| Poll interval | `pageindex.poll_interval_seconds` | `STI_POLL_INTERVAL` | `3` |
+| Poll timeout | `pageindex.poll_timeout_seconds` | `STI_POLL_TIMEOUT` | `300` |
+| System prompt | `llm.system_prompt` | `STI_SYSTEM_PROMPT` | See config.yaml |
 
-Data Isolation: The /data and /storage folders are included in .gitignore to prevent accidental leakage of internal manuals to public repositories.
+## Privacy & security
+
+- **Zero-footprint** — uploaded documents are processed within the container and are never used to train global AI models.
+- **Non-root container** — the Docker image runs as UID 1000 (`appuser`), not root.
+- **Secrets management** — API keys are loaded from environment variables and are never committed to the repository.
+- **Audit logging** — all queries and retrieved sources are written to `query_logs.csv`, downloadable from the sidebar.
+
+## Live demo
+
+**Hugging Face Space:** [rndayizeye-rag-surveillance-demo.hf.space](https://rndayizeye-rag-surveillance-demo.hf.space)
+
+## Author
+
+Public Health Professional | Regional Program Coordinator
+Specialising in infectious disease surveillance and data analytics.

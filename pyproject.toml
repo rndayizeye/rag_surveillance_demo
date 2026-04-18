@@ -1,32 +1,29 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=68"]
+build-backend = "setuptools.backends.legacy:build"
 
 [project]
-name = "sti_surveillance_rag"
-version = "0.0.1"
-description = "This project aims to develop a demo of a RAG implementation for our STI surveillance program using a Streamlit app. It will integrate guidelines from manuals and CDC with unique instructions. Built in a Docker container, I'll document my progress on GitHub, showcasing my learning journey in programming."
-authors = [
-  { name = "Remy Ndayizeye" },
+name = "sti-surveillance-rag"
+version = "0.1.0"
+description = "Reasoning-based RAG assistant for STI surveillance manuals"
+requires-python = ">=3.11"
+dependencies = [
+    "pageindex",
+    "streamlit==1.43.0",
+    "pypdf==4.3.1",
+    "python-dotenv==1.0.1",
+    "pandas==2.2.2",
 ]
-license = { file = "LICENSE" }
-readme = "README.md"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-mock>=3.14",
 ]
-requires-python = "~=3.10.0"
 
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sti_rag*"]
 
-[tool.ruff]
-line-length = 99
-src = ["sti_surveillance_rag"]
-include = ["pyproject.toml", "sti_surveillance_rag/**/*.py"]
-
-[tool.ruff.lint]
-extend-select = ["I"]  # Add import sorting
-
-[tool.ruff.lint.isort]
-known-first-party = ["sti_surveillance_rag"]
-force-sort-within-sections = true
-
+[tool.pytest.ini_options]
+testpaths = ["tests"]

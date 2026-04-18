@@ -1,18 +1,15 @@
-streamlit
-llama-index
-llama-index-embeddings-huggingface
-llama-index-llms-openai
-torch
-torchvision
-sentence-transformers
-pypdf
-python-dotenv
-llama-index-llms-groq
-pandas
+# PageIndex — vectorless, reasoning-based RAG
+pageindex==0.3.3
 
+# Config file parsing
+pyyaml==6.0.2
 
+# UI & utilities
+streamlit==1.43.0
+pypdf==4.3.1
+python-dotenv==1.0.1
+pandas==2.2.2
 
-
-
-
-
+# Dev/test (not installed in Docker — use pip install -e ".[dev]")
+# pytest>=8.0
+# pytest-mock>=3.14
