@@ -1,5 +1,5 @@
 # PageIndex — vectorless, reasoning-based RAG
-pageindex==0.3.3
+pageindex==0.2.8
 
 # Config file parsing
 pyyaml==6.0.2
