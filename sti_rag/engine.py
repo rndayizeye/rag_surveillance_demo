@@ -140,11 +140,16 @@ class PageIndexChatEngine:
 
     def chat(self, message: str) -> "PageIndexResponse":
         cfg = get_config()
-        messages = (
-            [{"role": "system", "content": cfg.system_prompt}]
-            + self._history
-            + [{"role": "user", "content": message}]
-        )
+
+        # PageIndex Chat API requires the first message to be from 'user'.
+        # We prepend the system prompt to the very first user message so the
+        # LLM still receives the behavioural instructions on every conversation.
+        if not self._history:
+            first_content = f"{cfg.system_prompt}\n\n{message}"
+        else:
+            first_content = message
+
+        messages = self._history + [{"role": "user", "content": first_content}]
 
         raw = self._client.chat_completions(
             messages=messages,
