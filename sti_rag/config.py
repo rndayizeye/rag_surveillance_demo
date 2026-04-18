@@ -158,8 +158,15 @@ class AppConfig:
 
     def ensure_dirs(self) -> None:
         """Create data and storage directories if they don't already exist."""
-        self.data_dir.mkdir(parents=True, exist_ok=True)
-        self.storage_dir.mkdir(parents=True, exist_ok=True)
+        for d in (self.data_dir, self.storage_dir):
+            d.mkdir(parents=True, exist_ok=True)
+            # Ensure appuser can always write/delete inside these dirs,
+            # even if the directory itself was created by root via a Docker
+            # volume mount before the container dropped to a non-root user.
+            try:
+                d.chmod(0o755)
+            except PermissionError:
+                pass  # already owned by root — contents are still writable
 
     def __repr__(self) -> str:
         # Never include the API key in repr output (appears in logs, tracebacks)

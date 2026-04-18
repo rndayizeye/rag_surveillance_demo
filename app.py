@@ -73,8 +73,15 @@ with st.sidebar:
         for f in cfg.data_dir.iterdir():
             if not f.name.startswith("."):
                 f.unlink()
+        # Clear storage contents but not the directory itself — the directory
+        # may be owned by root when mounted as a Docker volume, so rmtree
+        # raises PermissionError. Deleting files inside it always works.
         if cfg.storage_dir.exists():
-            shutil.rmtree(cfg.storage_dir)
+            for f in cfg.storage_dir.iterdir():
+                if f.is_file():
+                    f.unlink()
+                elif f.is_dir():
+                    shutil.rmtree(f)
         st.session_state.pop("chat_engine", None)
         st.session_state.pop("messages", None)
         st.rerun()
