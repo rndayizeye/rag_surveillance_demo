@@ -1,0 +1,35 @@
+# sti_rag/config.yaml
+# --------------------
+# Default configuration for the STI Surveillance RAG assistant.
+# All values here can be overridden by environment variables (see config.py).
+# Do NOT put secrets here. API keys must always come from environment variables.
+
+paths:
+  # All paths are relative to the repository root.
+  # Override with absolute paths via env vars if needed (e.g. on a server).
+  data_dir: "data"
+  storage_dir: "storage"
+  query_log: "query_logs.csv"
+
+pageindex:
+  # How often (seconds) to check if a submitted document has finished indexing.
+  poll_interval_seconds: 3
+  # Maximum total time (seconds) to wait for all documents in one upload batch.
+  poll_timeout_seconds: 300
+
+ui:
+  # Page title shown in the browser tab and Streamlit header.
+  page_title: "STI Surveillance AI"
+  # Greeting shown when the engine first loads successfully.
+  greeting: >
+    Hello! Your surveillance manuals have been indexed.
+    How can I assist with STI protocols today?
+
+llm:
+  # System prompt sent to the LLM on every request.
+  # Keep this focused — specificity improves citation accuracy.
+  system_prompt: >
+    You are an STI Surveillance Assistant for public health professionals.
+    Answer questions strictly based on the uploaded manuals and memos.
+    If the answer cannot be found in the provided documents, say so clearly
+    and do not speculate. Always cite the section or page number when possible.

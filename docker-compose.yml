@@ -1,11 +1,22 @@
-
 services:
-  rag-app:
+  app:
     build: .
     ports:
       - "8501:8501"
+    env_file:
+      # Loads PAGEINDEX_API_KEY and any STI_* overrides from your local .env
+      - .env
     volumes:
-      - .:/app
-    environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - GROQ_API_KEY=${GROQ_API_KEY}
+      # Mount data/ and storage/ so uploaded PDFs and the doc registry
+      # survive container restarts without being baked into the image.
+      # Remove these lines if you want a fully ephemeral container.
+      - ./data:/app/data
+      - ./storage:/app/storage
+      - ./query_logs.csv:/app/query_logs.csv 
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost:8501/_stcore/health"]
+      interval: 10s
+      timeout: 5s
+      start_period: 30s
+      retries: 3

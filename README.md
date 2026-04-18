@@ -1,88 +1,126 @@
 ---
-title: RAG Surveillance Demo
+title: RAG Surveillance Pro
 emoji: 🔍
 colorFrom: blue
 colorTo: indigo
-sdk: streamlit
-sdk_version: "1.43.0"
-python_version: "3.11"
-app_file: app.py
-pinned: false
+sdk: docker
+app_port: 8501
 ---
 
-# STI Surveillance Retrieval Augmented Generation (RAG)
+# STI Surveillance RAG Assistant
 
-<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
-    <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
-</a>
+A professional RAG (Retrieval-Augmented Generation) assistant for public health professionals navigating STI surveillance manuals, CDC guidelines, and regional health memos.
 
-## App screenshot 
+Built with [PageIndex](https://github.com/VectifyAI/PageIndex) — a vectorless, reasoning-based retrieval framework that builds a hierarchical tree index from your documents and uses LLM reasoning to find relevant sections, rather than approximate vector similarity search.
 
-![App Screenshot](https://private-user-images.githubusercontent.com/66800883/576983211-d5d9ba26-18e0-43b1-871a-c2225ac4dcac.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzU5MzMzNzAsIm5iZiI6MTc3NTkzMzA3MCwicGF0aCI6Ii82NjgwMDg4My81NzY5ODMyMTEtZDVkOWJhMjYtMThlMC00M2IxLTg3MWEtYzIyMjVhYzRkY2FjLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA0MTElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNDExVDE4NDQzMFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWI5YjNlMDViY2ZjOTYxOTE4MDA0MTU5MmEzNzhiOWI1ZTM0ZTU0NWI3NTA3OWJjNjYyZDk2NDk4YTdmN2MzZmQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRnBuZyJ9._3pvp9oTif9RwmHcvCcDDO9FHLXG7SUNZsijaYibmzQ)
+## Features
 
-This project is a professional RAG (Retrieval-Augmented Generation) assistant designed for public health professionals to navigate infectious disease surveillance manuals, CDC guidelines, and regional health memos. The project uses a Streamlit app interface and is built in a Docker container to allow for easy deployment.
+- **Reasoning-based retrieval** — no vector database, no chunking artefacts. PageIndex navigates document structure the way a human analyst would.
+- **Multi-document support** — upload several manuals at once; the engine queries across all of them.
+- **Persistent indexing** — uploaded documents are indexed once and reused across sessions. Re-uploading the same file does not trigger re-indexing.
+- **Audit trail** — every query and response is logged to a downloadable CSV for compliance review.
+- **Containerised** — ships as a single Docker image for deployment on internal health department servers or Hugging Face Spaces.
 
-## Project Organization
+## Project structure
 
 ```
-├── .github/workflows/       # Automated CI/CD pipelines
-├── data/                    # Local storage for STI manuals and PDFs (Git-ignored)
-├── screenshots/             # App visuals for documentation
-├── src/                     # Core logic
+rag_surveillance_demo/
+├── sti_rag/                  # Application package
 │   ├── __init__.py
-│   └── engine.py            # RAG orchestration (LlamaIndex + Groq)
-├── storage/                 # Persistent vector index and embeddings (Git-ignored)
-├── .env                     # Private API keys (Git-ignored)
-├── .gitignore               # Prevents sensitive data from being pushed
-├── query_logs.csv           # Audit trail of queries and retrieved chunks (Git-ignored)
-├── app.py                   # UI with logging integration, Streamlit UI and session management
-├── docker-compose.yml       # Container orchestration
-├── Dockerfile               # Environment build instructions
-├── README.md                # Project documentation
-└── requirements.txt         # Python dependencies
+│   ├── config.py             # Layered config (YAML defaults + env overrides)
+│   ├── config.yaml           # Human-readable defaults — safe to commit
+│   ├── engine.py             # PageIndex orchestration
+│   └── audit.py              # CSV audit logging
+├── tests/
+│   ├── test_config.py
+│   └── test_engine.py
+├── data/                     # Uploaded PDFs (git-ignored)
+├── storage/                  # Persisted PageIndex doc registry (git-ignored)
+├── app.py                    # Streamlit UI
+├── Dockerfile
+├── docker-compose.yml
+└── requirements.txt
 ```
 
+## Tech stack
 
+| Layer | Technology |
+|---|---|
+| Retrieval | [PageIndex](https://github.com/VectifyAI/PageIndex) — vectorless, reasoning-based RAG |
+| UI | [Streamlit](https://streamlit.io) |
+| Container | Docker (multi-stage, non-root) |
+| Deployment | Hugging Face Spaces |
 
-## 🚀 Live Demo
-**Hugging Face Space:** [Click here to view the app demo](https://rndayizeye-rag-surveillance-demo.hf.space)
+## Getting started
 
----
+### 1. Clone the repository
 
-## 🛠️ Technical Stack
-- **LLM:** Meta Llama 3.1 (via Groq API)
-- **Framework:** LlamaIndex (RAG & Data Orchestration)
-- **Embeddings:** BAAI/bge-small-en-v1.5
-- **UI:** Streamlit
-- **Infrastructure:** Docker & Hugging Face Spaces
-
-## 🛡️ Privacy & Security
-- **Zero-Footprint:** This tool is designed with public health data sensitivity in mind. Uploaded documents are processed locally within the container and are **not** used to train global AI models.
-- **Environment Management:** API keys and sensitive configurations are managed via `.env` files and are never committed to the repository.
-
-## 📂 Features
-- **Dynamic Context:** Upload specific PDFs to build a temporary knowledge base for targeted queries.
-- **Verified Sources:** Every answer includes citations from your uploaded manuals to ensure accuracy.
-- **Containerized:** Fully portable via Docker, allowing for deployment on internal health department servers.
-
-## 🚦 Getting Started (Local Development)
-
-### 1. Clone the Repository
 ```bash
-git clone [https://github.com/your-username/your-repo.git](https://github.com/your-username/your-repo.git)
-cd your-repo
-2. Set Up Environment Variables
-Create a .env file in the root directory:
+git clone https://github.com/rndayizeye/rag_surveillance_demo.git
+cd rag_surveillance_demo
+```
 
-Plaintext
-GROQ_API_KEY=your_api_key_here
-3. Run with Docker Compose
-Bash
+### 2. Set up environment variables
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and add your [PageIndex API key](https://dash.pageindex.ai/api-keys):
+
+```
+PAGEINDEX_API_KEY=your_key_here
+```
+
+### 3. Run with Docker Compose
+
+```bash
 docker-compose up --build
-Access the app at http://localhost:8501.
+```
 
-👨‍💻 Author
+Open [http://localhost:8501](http://localhost:8501).
+
+### 4. Run locally without Docker
+
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+### 5. Run tests
+
+```bash
+pip install pytest pytest-mock
+pytest
+```
+
+## Configuration
+
+All settings live in `sti_rag/config.yaml`. Every value can be overridden at deploy time with an environment variable — no code changes needed.
+
+| Setting | YAML key | Env var | Default |
+|---|---|---|---|
+| PageIndex API key | — (secrets only) | `PAGEINDEX_API_KEY` | *(required)* |
+| Data directory | `paths.data_dir` | `STI_DATA_DIR` | `data/` |
+| Storage directory | `paths.storage_dir` | `STI_STORAGE_DIR` | `storage/` |
+| Poll interval | `pageindex.poll_interval_seconds` | `STI_POLL_INTERVAL` | `3` |
+| Poll timeout | `pageindex.poll_timeout_seconds` | `STI_POLL_TIMEOUT` | `300` |
+| System prompt | `llm.system_prompt` | `STI_SYSTEM_PROMPT` | See config.yaml |
+
+## Privacy & security
+
+- **Zero-footprint** — uploaded documents are processed within the container and are never used to train global AI models.
+- **Non-root container** — the Docker image runs as UID 1000 (`appuser`), not root.
+- **Secrets management** — API keys are loaded from environment variables and are never committed to the repository.
+- **Audit logging** — all queries and retrieved sources are written to `query_logs.csv`, downloadable from the sidebar.
+
+## Live demo
+
+**Hugging Face Space:** [rndayizeye/rag-surveillance-pro.hf.space](https://rndayizeye/rag-surveillance-pro.hf.space)
+
+## Author
+
 Public Health Professional | Regional Program Coordinator
-Specializing in infectious disease surveillance and data analytics.
---------
-
+Specialising in infectious disease surveillance and data analytics.
