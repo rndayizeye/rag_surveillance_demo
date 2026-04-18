@@ -12,6 +12,7 @@ services:
       # Remove these lines if you want a fully ephemeral container.
       - ./data:/app/data
       - ./storage:/app/storage
+      - ./query_logs.csv:/app/query_logs.csv 
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "--silent", "--fail", "http://localhost:8501/_stcore/health"]
