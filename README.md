@@ -1,13 +1,10 @@
 ---
-title: RAG Surveillance Demo
+title: RAG Surveillance Pro
 emoji: 🔍
 colorFrom: blue
 colorTo: indigo
-sdk: streamlit
-sdk_version: 1.43.0
-python_version: "3.11"
-app_file: app.py
-pinned: false
+sdk: docker
+app_port: 8501
 ---
 
 # STI Surveillance RAG Assistant
