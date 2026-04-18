@@ -201,3 +201,4 @@ data/*
 screenshots/*.png
 screenshots/
 query_logs.csv
+.Rhistory
