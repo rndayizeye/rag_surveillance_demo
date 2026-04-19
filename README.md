@@ -118,7 +118,7 @@ All settings live in `sti_rag/config.yaml`. Every value can be overridden at dep
 
 ## Live demo
 
-**Hugging Face Space:** [rndayizeye/rag-surveillance-pro.hf.space](https://rndayizeye/rag-surveillance-pro.hf.space)
+**Hugging Face Space:** [https://rndayizeye/rag-surveillance-pro.hf.space](https://rndayizeye-rag-surveillance-pro.hf.space)
 
 ## Author
 
